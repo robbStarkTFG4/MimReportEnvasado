@@ -246,7 +246,21 @@ public class HomeCtrl implements Serializable {
         responsableLabel.setPaddingTop(5);
         responsableLabel.setColspan(3);
 
-        PdfPCell areaValor = new PdfPCell(new Paragraph("concretera"));
+        String area;
+        if (lugar.getNombre().contains("linea")) {
+            area = "envasado";
+        } else if (lugar.getNombre().contains("otro")) {
+            area = "Tecate 500";
+        }else if (lugar.getNombre().contains("PD")) {
+            area = "concretos";
+        }else if(lugar.getNombre().contains("planta agua")){
+            area="cerveceria";
+        }else {
+            area = "elaboracion";
+        }
+
+        
+        PdfPCell areaValor = new PdfPCell(new Paragraph(area));
         areaValor.setFixedHeight(25);
         areaValor.setHorizontalAlignment(Element.ALIGN_CENTER);
         areaValor.setColspan(2);
@@ -352,8 +366,12 @@ public class HomeCtrl implements Serializable {
                     valueParamCell.addElement(new Paragraph(historial.getValor()));
                     valueParamCell.setPaddingBottom(10);
 
-                    table.addCell(paramCell);
-                    table.addCell(valueParamCell);
+                    if(historial.getValor()!=null){
+                        if(historial.getValor().length()>0){
+                          table.addCell(paramCell);
+                          table.addCell(valueParamCell);
+                        }
+                    }
                 }
             }
         }
